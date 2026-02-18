@@ -1,28 +1,18 @@
-<div align="center">
+# lib_base — Accessibility Tracker
 
-**[فارسی](README.fa.md)** | **English**
+This repository is a fork of [desktop-app/lib_base](https://github.com/desktop-app/lib_base) that tracks **accessibility improvements** to Telegram Desktop's base library. All changes listed here are merged into the official upstream repository.
 
-</div>
+> This is part of the broader [Telegram Desktop Accessibility](https://github.com/rezabakhshilaktasaraei/tdesktop-accessible) effort.
 
-# lib_base — Accessibility
+## Merged Pull Requests
 
-Screen reader detection for Telegram Desktop
+| PR | Title | Author | First Telegram Desktop Release |
+|---|---|---|---|
+| [#273](https://github.com/desktop-app/lib_base/pull/273) | Add screen reader detection via QAccessible::ActivationObserver | [@rezabakhshilaktasaraei](https://github.com/rezabakhshilaktasaraei) | [v6.2.5](https://github.com/rezabakhshilaktasaraei/tdesktop-accessible/releases/tag/v6.2.5) |
 
-> Fork of [desktop-app/lib_base](https://github.com/desktop-app/lib_base)
+## What Was Added
 
-## About
-
-This fork adds the screen reader detection foundation for Telegram Desktop's accessibility system. It introduces the `ScreenReaderState` class — a singleton that tracks whether a screen reader is active and allows the rest of the UI to adapt accordingly (e.g., setting focus policies, enabling keyboard navigation).
-
-## Contribution Merged Upstream — 1 PR
-
-| PR | Description | Date |
-|----|-------------|------|
-| [#273](https://github.com/desktop-app/lib_base/pull/273) | **Screen reader detection** — `ScreenReaderState` singleton using `QAccessible::ActivationObserver`, reactive `activeValue()` producer for UI components to adapt when a screen reader is active | Oct 2025 |
-
-## How It Works
-
-Components subscribe to the screen reader state and adapt their behavior when a screen reader becomes active:
+- **Screen reader detection** — A `ScreenReaderState` singleton that tracks whether a screen reader is active using Qt's `QAccessible::ActivationObserver`. UI components can subscribe to state changes and adapt their behavior (e.g., enabling keyboard focus policies when a screen reader is detected).
 
 ```cpp
 base::ScreenReaderState::Instance()->activeValue(
@@ -31,19 +21,11 @@ base::ScreenReaderState::Instance()->activeValue(
 }, widget->lifetime());
 ```
 
-When a screen reader starts, `activeValue()` emits `true`, and widgets can enable strong focus, add keyboard handlers, or expose additional accessibility information. When the screen reader stops, the UI reverts to its default behavior.
-
-## Key File
-
-| File | Purpose |
-|------|---------|
-| `base/platform/win/base_screen_reader_win.h/cpp` | `ScreenReaderState` singleton, `QAccessible::ActivationObserver` integration, reactive `activeValue()` producer |
-
 ## Related Repositories
 
-- [lib_ui accessibility changes](https://github.com/rezabakhshilaktasaraei/lib_ui) — Widget-level accessibility built on top of this detection
-- [tdesktop accessibility changes](https://github.com/rezabakhshilaktasaraei/tdesktop-accessible) — Application-level accessibility using both libraries
+- [tdesktop-accessible](https://github.com/rezabakhshilaktasaraei/tdesktop-accessible) — Main tracker with releases
+- [lib_ui](https://github.com/rezabakhshilaktasaraei/lib_ui) — UI widget accessibility
 
 ## License
 
-This project is licensed under the [GNU General Public License v3.0](LICENSE), with an OpenSSL exception.
+GNU General Public License v3.0 with OpenSSL exception, same as the official [lib_base](https://github.com/desktop-app/lib_base).
